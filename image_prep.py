@@ -3,7 +3,7 @@ import os
 import numpy as np
 
 # Define input and output folder paths
-
+input_folders = ["Dataset/Hex", "Dataset/Machine", "Dataset/Philips", "Dataset/Torx"]
 output_folders = ["Processed/Hex", "Processed/Machine", "Processed/Philips", "Processed/Torx"]
 cropped_folders = ["Cropped/Hex", "Cropped/Machine", "Cropped/Philips", "Cropped/Torx"]
 
