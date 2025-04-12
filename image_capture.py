@@ -1,6 +1,13 @@
-import cv2
 import os
+os.environ["OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS"] = "0"
+import cv2
 import time
+import numpy as np
+
+# Load saved calibration parameters
+calibration_data = np.load('camera_calibration_params.npz')
+mtx = calibration_data['mtx']  # Camera matrix
+dist = calibration_data['dist']  # Distortion coefficients
 
 def capture_images(folder_name, base_dir, num_images=200, duration=30):
     fps = num_images / duration
@@ -10,7 +17,7 @@ def capture_images(folder_name, base_dir, num_images=200, duration=30):
     save_path = os.path.join(base_dir, folder_name)
     os.makedirs(save_path, exist_ok=True)
 
-    # Open webcam (USB cam? Change 0 to 1 if needed)
+    # Open webcam 
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         print("Error: Could not open webcam.")
