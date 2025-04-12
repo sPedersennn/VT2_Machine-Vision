@@ -9,7 +9,7 @@ calibration_data = np.load('camera_calibration_params.npz')
 mtx = calibration_data['mtx']  # Camera matrix
 dist = calibration_data['dist']  # Distortion coefficients
 
-def capture_images(folder_name, base_dir, num_images=200, duration=30):
+def capture_images(folder_name, base_dir, num_images=200, duration=35):
     fps = num_images / duration
     delay = 1 / fps
 
@@ -32,12 +32,23 @@ def capture_images(folder_name, base_dir, num_images=200, duration=30):
             print(f"Error: Failed to capture image {i}")
             continue
 
+        # Show the frame in a window
+        cv2.imshow("Capturing - Press 'q' to quit", frame)
+
+        # Save the frame as image
         filename = os.path.join(save_path, f"image_{i:03d}.jpg")
         cv2.imwrite(filename, frame)
+
+        # Allow exiting early by pressing 'q'
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            print("Capture interrupted by user.")
+            break
+
         time.sleep(delay)
 
     cap.release()
-    print(f"Finished capturing {num_images} images for '{folder_name}' in {time.time() - start_time:.2f} seconds.\n")
+    cv2.destroyAllWindows()
+    print(f"Finished capturing {i+1} images for '{folder_name}' in {time.time() - start_time:.2f} seconds.\n")
 
 def main():
     # Get the path to the current script's directory
@@ -45,8 +56,8 @@ def main():
     base_dir = os.path.join(repo_dir, "Dataset")
     folders = []
 
-    print("Images will be saved to the Dataset directory.")
-    print("Define 4 folders. 200 images will taken over 30 seconds.\n")
+    print("Images will be saved to a 'Dataset' folder inside this script's directory.")
+    print("You will define 4 folders. Each will store 200 images taken over 10 seconds.\n")
 
     for i in range(4):
         folder_name = input(f"Enter name for folder #{i+1}: ")
