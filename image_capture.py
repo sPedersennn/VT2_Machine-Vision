@@ -2,7 +2,7 @@ import cv2
 import os
 import time
 
-def capture_images(folder_name, base_dir, num_images=200, duration=10):
+def capture_images(folder_name, base_dir, num_images=200, duration=30):
     fps = num_images / duration
     delay = 1 / fps
 
@@ -38,8 +38,8 @@ def main():
     base_dir = os.path.join(repo_dir, "Dataset")
     folders = []
 
-    print("Images will be saved to a 'Dataset' folder inside this script's directory.")
-    print("You will define 4 folders. Each will store 200 images taken over 10 seconds.\n")
+    print("Images will be saved to the Dataset directory.")
+    print("Define 4 folders. 200 images will taken over 30 seconds.\n")
 
     for i in range(4):
         folder_name = input(f"Enter name for folder #{i+1}: ")
@@ -49,7 +49,7 @@ def main():
         input(f"\nReady to start capturing '{folder}'. Press Enter to continue...")
         capture_images(folder, base_dir)
 
-    print("✅ All captures complete. Images saved under:", base_dir)
+    print("All captures complete. Images saved under:", base_dir)
 
 if __name__ == "__main__":
     main()
