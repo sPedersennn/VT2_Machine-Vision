@@ -1,64 +1,69 @@
 import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+from tensorflow.keras import layers, models
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import os
 
-# Set parameters
-img_height, img_width = 128, 128  # Resize images to this size
+# Path to your dataset
+dataset_dir = 'screw_dataset'
+
+# Parameters
+img_size = 128
 batch_size = 32
-num_classes = 4
-epochs = 10
+epochs = 20
 
-# Load and augment data
+# Data generators with augmentation
 train_datagen = ImageDataGenerator(
     rescale=1./255,
-    validation_split=0.2,  # 80% train, 20% validation
+    validation_split=0.2,
     rotation_range=20,
-    zoom_range=0.2,
+    zoom_range=0.1,
     horizontal_flip=True
 )
 
-train_data = train_datagen.flow_from_directory(
-    'dataset/',
-    target_size=(img_height, img_width),
+train_generator = train_datagen.flow_from_directory(
+    dataset_dir,
+    target_size=(img_size, img_size),
     batch_size=batch_size,
     class_mode='categorical',
-    subset='training'
+    subset='training',
+    shuffle=True
 )
 
-val_data = train_datagen.flow_from_directory(
-    'dataset/',
-    target_size=(img_height, img_width),
+val_generator = train_datagen.flow_from_directory(
+    dataset_dir,
+    target_size=(img_size, img_size),
     batch_size=batch_size,
     class_mode='categorical',
-    subset='validation'
+    subset='validation',
+    shuffle=False
 )
 
-# Build the CNN model
-model = Sequential([
-    Conv2D(32, (3, 3), activation='relu', input_shape=(img_height, img_width, 3)),
-    MaxPooling2D(2, 2),
+# Simple CNN model
+model = models.Sequential([
+    layers.Input(shape=(img_size, img_size, 3)),
     
-    Conv2D(64, (3, 3), activation='relu'),
-    MaxPooling2D(2, 2),
+    layers.Conv2D(32, (3,3), activation='relu'),
+    layers.MaxPooling2D(2,2),
+    
+    layers.Conv2D(64, (3,3), activation='relu'),
+    layers.MaxPooling2D(2,2),
+    
+    layers.Conv2D(128, (3,3), activation='relu'),
+    layers.MaxPooling2D(2,2),
 
-    Flatten(),
-    Dropout(0.5),
-    Dense(128, activation='relu'),
-    Dense(num_classes, activation='softmax')
+    layers.Flatten(),
+    layers.Dense(128, activation='relu'),
+    layers.Dropout(0.3),
+    layers.Dense(4, activation='softmax')  # 4 classes
 ])
 
-# Compile model
-model.compile(optimizer='adam',
-              loss='categorical_crossentropy',
-              metrics=['accuracy'])
+# Compile
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-# Train model
-history = model.fit(
-    train_data,
-    epochs=epochs,
-    validation_data=val_data
-)
+# Train
+history = model.fit(train_generator, validation_data=val_generator, epochs=epochs)
 
-# Save model
+# Save the model
 model.save('screw_classifier_model.h5')
+
+print("✅ Training complete. Model saved as screw_classifier_model.h5")
