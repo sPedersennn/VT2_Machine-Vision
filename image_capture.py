@@ -32,8 +32,10 @@ def capture_images(folder_name, base_dir, num_images=200, duration=35):
             print(f"Error: Failed to capture image {i}")
             continue
 
+        undistorted_frame = cv2.undistort(frame, mtx, dist)
+
         # Show the frame in a window
-        cv2.imshow("Capturing - Press 'q' to quit", frame)
+        cv2.imshow("Capturing - Press 'q' to quit", undistorted_frame)
 
         # Save the frame as image
         filename = os.path.join(save_path, f"image_{i:03d}.jpg")

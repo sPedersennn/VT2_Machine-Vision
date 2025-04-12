@@ -4,7 +4,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import os
 
 # Path to your dataset
-dataset_dir = 'screw_dataset'
+dataset_dir = 'Cropped'
 
 # Parameters
 img_size = 128
@@ -66,4 +66,4 @@ history = model.fit(train_generator, validation_data=val_generator, epochs=epoch
 # Save the model
 model.save('screw_classifier_model.h5')
 
-print("✅ Training complete. Model saved as screw_classifier_model.h5")
+print("Training complete. Model saved as screw_classifier_model.h5")
