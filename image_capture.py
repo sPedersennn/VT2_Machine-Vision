@@ -55,7 +55,7 @@ def capture_images(folder_name, base_dir, num_images=200, duration=35):
 def main():
     # Get the path to the current script's directory
     repo_dir = os.path.dirname(os.path.abspath(__file__))
-    base_dir = os.path.join(repo_dir, "Dataset")
+    base_dir = os.path.join(repo_dir, "Raw")
     folders = []
 
     print("Images will be saved to a 'Dataset' folder inside this script's directory.")
