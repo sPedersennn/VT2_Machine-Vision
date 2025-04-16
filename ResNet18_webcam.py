@@ -1,13 +1,15 @@
 import torch
 import torch.nn as nn
 from torchvision import transforms, models
+import os
+os.environ["OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS"] = "0"
 import cv2
 import numpy as np
-import os
+
 
 # ----- CONFIG -----
-MODEL_PATH = "resnet18_custom.pth"
-CLASS_NAMES = ['class_1', 'class_2']  # Replace with your actual class names
+MODEL_PATH = "resnet18_screw_classifier.pth"
+CLASS_NAMES = ['Machine', 'Philips', 'Plaster', 'Torx']  # Replace with your actual class names
 NUM_CLASSES = len(CLASS_NAMES)
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
