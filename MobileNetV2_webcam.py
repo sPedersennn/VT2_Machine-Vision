@@ -14,7 +14,7 @@ NUM_CLASSES = len(CLASS_NAMES)
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # ----- LOAD MODEL -----
-model = models.resnet18(pretrained=False)
+model = models.mobilenet_v2(pretrained=False)
 model.classifier[1] = nn.Linear(model.classifier[1].in_features, NUM_CLASSES)
 model.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE))
 model.to(DEVICE)
@@ -28,7 +28,7 @@ transform = transforms.Compose([
 ])
 
 # ----- WEBCAM -----
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 print("Starting webcam... Press 'q' to quit.")
 
