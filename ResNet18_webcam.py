@@ -27,7 +27,7 @@ transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
-# ----- WEBCAM LOOP -----
+# ----- WEBCAM -----
 cap = cv2.VideoCapture(0)
 
 print("Starting webcam... Press 'q' to quit.")
