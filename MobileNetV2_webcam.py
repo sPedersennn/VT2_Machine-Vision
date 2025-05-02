@@ -35,7 +35,7 @@ calibration_data = np.load('camera_calibration_params.npz')
 mtx = calibration_data['mtx']  # Camera matrix
 dist = calibration_data['dist']  # Distortion coefficients
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 print("Starting webcam... Press 'q' to quit.")
 
