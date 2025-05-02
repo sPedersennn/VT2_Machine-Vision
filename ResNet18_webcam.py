@@ -54,6 +54,10 @@ while True:
         break
 
     img = cv2.flip(frame, 1)  # Flip for selfie view
+
+    # ---- APPLY CAMERA CALIBRATION HERE ----
+    img = cv2.undistort(img, mtx, dist, None, mtx)
+
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     input_tensor = transform(img_rgb).unsqueeze(0).to(DEVICE)
 
@@ -70,8 +74,6 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-cap.release()
-cv2.destroyAllWindows()
 
 cap.release()
 cv2.destroyAllWindows()
