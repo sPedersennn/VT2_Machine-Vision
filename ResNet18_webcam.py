@@ -30,16 +30,6 @@ transform = transforms.Compose([
 ])
 
 # ----- WEBCAM -----
-# Load saved calibration parameters
-calibration_data = np.load('camera_calibration_params.npz')
-mtx = calibration_data['mtx']  # Camera matrix
-dist = calibration_data['dist']  # Distortion coefficients
-cap = cv2.VideoCapture(0)
-
-print("Starting webcam... Press 'q' to quit.")
-
-# ----- WEBCAM -----
-# Load saved calibration parameters
 calibration_data = np.load('camera_calibration_params.npz')
 mtx = calibration_data['mtx']  # Camera matrix
 dist = calibration_data['dist']  # Distortion coefficients
@@ -53,9 +43,6 @@ while True:
     if not ret:
         break
 
-    img = cv2.flip(frame, 1)  # Flip for selfie view
-
-    # ---- APPLY CAMERA CALIBRATION HERE ----
     img = cv2.undistort(img, mtx, dist, None, mtx)
 
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)

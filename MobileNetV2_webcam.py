@@ -9,7 +9,7 @@ import numpy as np
 
 # ----- CONFIG -----
 MODEL_PATH = "mobilenetv2_screw_classifier.pth"
-CLASS_NAMES = ['Machine', 'Philips', 'Plaster', 'Torx']  # Replace with your actual class names
+CLASS_NAMES = ['Machine', 'Philips', 'Plaster', 'Torx']
 NUM_CLASSES = len(CLASS_NAMES)
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -25,12 +25,11 @@ transform = transforms.Compose([
     transforms.ToPILImage(),
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406],  # standard for pretrained
+    transforms.Normalize(mean=[0.485, 0.456, 0.406],
                          std=[0.229, 0.224, 0.225])
 ])
 
 # ----- WEBCAM -----
-# Load saved calibration parameters
 calibration_data = np.load('camera_calibration_params.npz')
 mtx = calibration_data['mtx']  # Camera matrix
 dist = calibration_data['dist']  # Distortion coefficients
@@ -43,10 +42,7 @@ while True:
     ret, frame = cap.read()
     if not ret:
         break
-
-    img = cv2.flip(frame, 1)  # Flip for selfie view
-
-    # ---- APPLY CAMERA CALIBRATION HERE ----
+    
     img = cv2.undistort(img, mtx, dist, None, mtx)
 
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)

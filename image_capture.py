@@ -13,7 +13,6 @@ def capture_images(folder_name, base_dir, num_images=200, duration=35):
     fps = num_images / duration
     delay = 1 / fps
 
-    # Full path for current folder
     save_path = os.path.join(base_dir, folder_name)
     os.makedirs(save_path, exist_ok=True)
 
@@ -34,14 +33,11 @@ def capture_images(folder_name, base_dir, num_images=200, duration=35):
 
         undistorted_frame = cv2.undistort(frame, mtx, dist)
 
-        # Show the frame in a window
         cv2.imshow("Capturing - Press 'q' to quit", undistorted_frame)
 
-        # Save the frame as image
         filename = os.path.join(save_path, f"image_{i:03d}.jpg")
         cv2.imwrite(filename, frame)
 
-        # Allow exiting early by pressing 'q'
         if cv2.waitKey(1) & 0xFF == ord('q'):
             print("Capture interrupted by user.")
             break
@@ -53,7 +49,7 @@ def capture_images(folder_name, base_dir, num_images=200, duration=35):
     print(f"Finished capturing {i+1} images for '{folder_name}' in {time.time() - start_time:.2f} seconds.\n")
 
 def main():
-    # Get the path to the current script's directory
+
     repo_dir = os.path.dirname(os.path.abspath(__file__))
     base_dir = os.path.join(repo_dir, "Raw")
     folders = []
